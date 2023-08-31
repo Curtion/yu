@@ -1,8 +1,4 @@
-package json
-
-const (
-	Version = "1.0"
-)
+package jd
 
 type HttpRequest struct {
 	MsgId   string                 `json:"msgId"`

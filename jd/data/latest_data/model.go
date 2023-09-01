@@ -22,9 +22,9 @@ type SubDevice struct {
 }
 
 type data struct {
-	Properties map[string]Propertie `json:"properties"`
-	Events     map[string]Event     `json:"events"`
-	SubDevices []SubDevice          `json:"subDevices"`
+	Properties map[string]Propertie
+	Events     map[string]Event
+	SubDevices []SubDevice
 	productKey string
 	deviceName string
 	msgId      string

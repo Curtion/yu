@@ -1,6 +1,7 @@
 package status
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 
@@ -23,6 +24,7 @@ func (d *data) Pack() *jd.HttpRequest3 {
 			map[string]interface{}{
 				"name":      d.deviceName,
 				"timestamp": d.timestamp,
+				"state":     d.Status,
 			},
 		},
 	}
@@ -48,12 +50,22 @@ func (d *data) SetMsgId(msgId string) *data {
 	return d
 }
 
-func (d *data) GetOnlineTopic() string {
+func (d *data) GetTopic() (string, error) {
+	if d.Status == 1 {
+		return d.getOnlineTopic(), nil
+	} else if d.Status == 2 {
+		return d.getOfflineTopic(), nil
+	} else {
+		return "", fmt.Errorf("%s", "status is not 1 or 2")
+	}
+}
+
+func (d *data) getOnlineTopic() string {
 	topic := jd.NewTopic(d.productKey, d.deviceName)
 	return topic.GetOnlineTopic() + "/" + strconv.Itoa(int(d.timestamp))
 }
 
-func (d *data) GetOfflineTopic() string {
+func (d *data) getOfflineTopic() string {
 	topic := jd.NewTopic(d.productKey, d.deviceName)
 	return topic.GetOfflineTopic() + "/" + strconv.Itoa(int(d.timestamp))
 }

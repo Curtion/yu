@@ -22,6 +22,14 @@ func (t *Topic) GetServiceTopic() string {
 	return fmt.Sprintf("iot/%s/%s/thing/service/invoke_reply", t.productKey, t.deviceName)
 }
 
+func (t *Topic) GetOnlineTopic() string {
+	return fmt.Sprintf("$SERVER/%s/%s/connected", t.productKey, t.deviceName)
+}
+
+func (t *Topic) GetOfflineTopic() string {
+	return fmt.Sprintf("$SERVER/%s/%s/disconnected", t.productKey, t.deviceName)
+}
+
 func (t *Topic) GetSubTopics() []string {
 	return []string{
 		fmt.Sprintf("iot/%s/+/thing/event/property/pack/post_reply", t.productKey),    // 最新属性、事件上报回复

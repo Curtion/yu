@@ -14,3 +14,10 @@ type HttpRequest2 struct {
 	Data    map[string]interface{} `json:"data"`
 	Message string                 `json:"message"`
 }
+
+type HttpRequest3 struct {
+	MsgId   string        `json:"msgId"`
+	Version string        `json:"version"`
+	Method  string        `json:"method"`
+	Params  []interface{} `json:"params"`
+}

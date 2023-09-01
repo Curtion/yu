@@ -9,7 +9,10 @@ import (
 
 func NewData() *data {
 	return &data{
-		msgId: strconv.Itoa(int(time.Now().UnixNano())),
+		msgId:      strconv.Itoa(int(time.Now().UnixNano())),
+		Properties: map[string]Propertie{},
+		Events:     map[string]Event{},
+		SubDevices: []SubDevice{},
 	}
 }
 

@@ -30,12 +30,24 @@ func (t *Topic) GetOfflineTopic() string {
 	return fmt.Sprintf("$SERVER/%s/%s/disconnected", t.productKey, t.deviceName)
 }
 
-func (t *Topic) GetSubTopics() []string {
-	return []string{
+func (t *Topic) GetSubTopics(devices []string) []string {
+	defaultTopics := []string{
 		fmt.Sprintf("iot/%s/+/thing/event/property/pack/post_reply", t.productKey),    // 最新属性、事件上报回复
 		fmt.Sprintf("iot/%s/+/thing/event/property/history/post_reply", t.productKey), // 历史属性、事件上报回复
 		fmt.Sprintf("iot/%s/+/thing/service/invoke", t.productKey),                    // 服务调用
 		fmt.Sprintf("iot/%s/+/sys/cmd/invoke", t.productKey),                          // 系统指令调用
 		fmt.Sprintf("iot/%s/+/thing/transport/down", t.productKey),                    // 下行透传
 	}
+	if len(devices) == 0 {
+		return defaultTopics
+	}
+	var topics []string
+	for _, device := range devices {
+		topics = append(topics, fmt.Sprintf("iot/%s/%s/thing/event/property/pack/post_reply", t.productKey, device))
+		topics = append(topics, fmt.Sprintf("iot/%s/%s/thing/event/property/history/post_reply", t.productKey, device))
+		topics = append(topics, fmt.Sprintf("iot/%s/%s/thing/service/invoke_reply", t.productKey, device))
+		topics = append(topics, fmt.Sprintf("iot/%s/%s/sys/cmd/invoke_reply", t.productKey, device))
+		topics = append(topics, fmt.Sprintf("iot/%s/%s/thing/transport/up", t.productKey, device))
+	}
+	return topics
 }

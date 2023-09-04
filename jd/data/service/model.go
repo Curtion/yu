@@ -1,11 +1,14 @@
 package service
 
+import "github.com/Curtion/yu/jd"
+
 type Identity struct {
 	Pk   string `json:"pk"`
 	Name string `json:"name"`
 }
 
 type ServiceCall struct {
+	jd.HttpRequest
 	Identity Identity               `json:"identity"`
 	Value    map[string]interface{} `json:"value"`
 }

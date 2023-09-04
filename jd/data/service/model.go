@@ -5,6 +5,11 @@ type Identity struct {
 	Name string `json:"name"`
 }
 
+type ServiceCall struct {
+	Identity Identity               `json:"identity"`
+	Value    map[string]interface{} `json:"value"`
+}
+
 type data struct {
 	Identity   Identity
 	Properties map[string]interface{}

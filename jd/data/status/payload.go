@@ -24,14 +24,14 @@ func (d *data) Pack() *jd.HttpRequest3 {
 			map[string]interface{}{
 				"name":      d.deviceName,
 				"timestamp": d.timestamp,
-				"state":     d.Status,
+				"state":     d.status,
 			},
 		},
 	}
 }
 
 func (d *data) SetStatus(status int64) *data {
-	d.Status = status
+	d.status = status
 	return d
 }
 
@@ -51,9 +51,9 @@ func (d *data) SetMsgId(msgId string) *data {
 }
 
 func (d *data) GetTopic() (string, error) {
-	if d.Status == 1 {
+	if d.status == 1 {
 		return d.getOnlineTopic(), nil
-	} else if d.Status == 2 {
+	} else if d.status == 2 {
 		return d.getOfflineTopic(), nil
 	} else {
 		return "", fmt.Errorf("%s", "status is not 1 or 2")

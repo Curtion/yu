@@ -37,6 +37,7 @@ func (t *Topic) GetSubTopics(devices []string) []string {
 		fmt.Sprintf("iot/%s/+/thing/service/invoke", t.productKey),                    // 服务调用
 		fmt.Sprintf("iot/%s/+/sys/cmd/invoke", t.productKey),                          // 系统指令调用
 		fmt.Sprintf("iot/%s/+/thing/transport/down", t.productKey),                    // 下行透传
+		fmt.Sprintf("iot/%s/+/sys/info/rsp", t.productKey),                            // 系统信息上报回复
 	}
 	if len(devices) == 0 {
 		return defaultTopics
@@ -48,6 +49,7 @@ func (t *Topic) GetSubTopics(devices []string) []string {
 		topics = append(topics, fmt.Sprintf("iot/%s/%s/thing/service/invoke", t.productKey, device))
 		topics = append(topics, fmt.Sprintf("iot/%s/%s/sys/cmd/invoke", t.productKey, device))
 		topics = append(topics, fmt.Sprintf("iot/%s/%s/thing/transport/down", t.productKey, device))
+		topics = append(topics, fmt.Sprintf("iot/%s/%s/sys/info/rsp", t.productKey, device))
 	}
 	return topics
 }

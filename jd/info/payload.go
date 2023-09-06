@@ -25,6 +25,16 @@ func (d *data) Pack() *jd.HttpRequest {
 	}
 }
 
+func (d *data) SetProductKey(productKey string) *data {
+	d.productKey = productKey
+	return d
+}
+
+func (d *data) SetDeviceName(deviceName string) *data {
+	d.deviceName = deviceName
+	return d
+}
+
 func (d *data) SetFmVersion(fmVersion string) *data {
 	d.fmVersion = fmVersion
 	return d
@@ -38,4 +48,9 @@ func (d *data) SetCcid(ccid string) *data {
 func (d *data) SetMsgId(msgId string) *data {
 	d.msgId = msgId
 	return d
+}
+
+func (d *data) GetTopic() string {
+	topic := jd.NewTopic(d.productKey, d.deviceName)
+	return topic.GetInfoTopic()
 }

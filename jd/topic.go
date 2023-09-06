@@ -30,6 +30,10 @@ func (t *Topic) GetOfflineTopic() string {
 	return fmt.Sprintf("$SERVER/%s/%s/disconnected", t.productKey, t.deviceName)
 }
 
+func (t *Topic) GetInfoTopic() string {
+	return fmt.Sprintf("iot/%s/%s/sys/info/rpt", t.productKey, t.deviceName)
+}
+
 func (t *Topic) GetSubTopics(devices []string) []string {
 	defaultTopics := []string{
 		fmt.Sprintf("iot/%s/+/thing/event/property/pack/post_reply", t.productKey),    // 最新属性、事件上报回复

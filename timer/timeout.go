@@ -20,21 +20,17 @@ func NewTimer(time time.Duration) *timer {
 	}
 }
 
-func (t *timer) Wait(key string, value any) (any, error) {
+func (t *timer) Wait(key string) (any, error) {
 	timer := time.NewTimer(t.timeout)
 	t.mux.Lock()
+	defer t.mux.Unlock()
 	t.list[key] = make(chan any)
-	t.mux.Unlock()
 	select {
 	case <-timer.C:
-		t.mux.Lock()
 		delete(t.list, key)
-		t.mux.Unlock()
 		return nil, fmt.Errorf("%v, timeout", key)
 	case v := <-t.list[key]:
-		t.mux.Lock()
 		delete(t.list, key)
-		t.mux.Unlock()
 		return v, nil
 	}
 }

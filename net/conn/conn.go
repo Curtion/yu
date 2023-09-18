@@ -36,6 +36,10 @@ func (c *Conn) Read(data []byte) (int, error) {
 	return c.conn.Read(data)
 }
 
+func (c *Conn) IsClosed() bool {
+	return c.isClosed
+}
+
 func (c *Conn) Close() error {
 	c.isClosed = true
 	return c.conn.Close()

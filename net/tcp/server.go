@@ -10,14 +10,14 @@ import (
 type Server struct {
 	listener net.Listener
 	port     int
-	connMgr  *conn.ConnManager
+	Conns    *conn.ConnManager
 	handle   func(*conn.Conn)
 }
 
 func NewServer(port int) *Server {
 	return &Server{
-		port:    port,
-		connMgr: conn.NewConnManager(),
+		port:  port,
+		Conns: conn.NewConnManager(),
 	}
 }
 
@@ -35,7 +35,7 @@ func (s *Server) Start() {
 		}
 		conn := conn.NewConn(c, c.RemoteAddr().String())
 		conn.SetHandle(s.handle)
-		s.connMgr.AddConn(conn)
+		s.Conns.AddConn(conn)
 		go conn.Start()
 	}
 }

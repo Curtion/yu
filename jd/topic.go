@@ -34,6 +34,10 @@ func (t *Topic) GetInfoTopic() string {
 	return fmt.Sprintf("iot/%s/%s/sys/info/rpt", t.productKey, t.deviceName)
 }
 
+func (t *Topic) GetSystemTopic() string {
+	return fmt.Sprintf("iot/%s/%s/sys/cmd/invoke_reply", t.productKey, t.deviceName)
+}
+
 func (t *Topic) GetSubTopics(devices []string) []string {
 	defaultTopics := []string{
 		fmt.Sprintf("iot/%s/+/thing/event/property/pack/post_reply", t.productKey),    // 最新属性、事件上报回复

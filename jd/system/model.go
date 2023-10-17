@@ -19,6 +19,7 @@ type params struct {
 
 type data struct {
 	msgId      string
+	method     string
 	productKey string
 	deviceName string
 	data       map[string]interface{}

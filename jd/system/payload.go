@@ -16,10 +16,16 @@ func (d *data) Pack() *jd.HttpRequest2 {
 	return &jd.HttpRequest2{
 		MsgId:   d.msgId,
 		Version: jd.Version,
+		Method:  d.method,
 		Code:    d.code,
 		Data:    d.data,
 		Message: d.message,
 	}
+}
+
+func (d *data) SetMethod(method string) *data {
+	d.method = method
+	return d
 }
 
 func (d *data) SetProductKey(productKey string) *data {

@@ -10,6 +10,7 @@ type HttpRequest struct {
 type HttpRequest2 struct {
 	MsgId   string                 `json:"msgId"`
 	Version string                 `json:"version"`
+	Method  string                 `json:"method"`
 	Code    int64                  `json:"code"`
 	Data    map[string]interface{} `json:"data"`
 	Message string                 `json:"message"`

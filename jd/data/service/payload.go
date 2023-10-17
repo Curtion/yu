@@ -8,8 +8,8 @@ import (
 
 func NewData() *data {
 	return &data{
-		Properties: make(map[string]interface{}),
-		Values:     make(map[string]interface{}),
+		properties: make(map[string]interface{}),
+		values:     make(map[string]interface{}),
 		code:       200,
 		message:    "success",
 	}
@@ -19,24 +19,38 @@ func (d *data) Pack() *jd.HttpRequest2 {
 	return &jd.HttpRequest2{
 		MsgId:   d.msgId,
 		Version: jd.Version,
+		Method:  d.method,
 		Code:    d.code,
 		Data: map[string]interface{}{
-			"identity":   d.Identity,
-			"value":      d.Values,
-			"properties": d.Properties,
+			"identity":   d.identity,
+			"value":      d.values,
+			"properties": d.properties,
 			"time":       time.Now().UnixNano(),
 		},
 		Message: d.message,
 	}
 }
 
+func (d *data) SetMethod(method string) *data {
+	d.method = method
+	return d
+}
+
+func (d *data) SetIdentity(pk string, name string) *data {
+	d.identity = Identity{
+		Pk:   pk,
+		Name: name,
+	}
+	return d
+}
+
 func (d *data) SetProperties(properties map[string]interface{}) *data {
-	d.Properties = properties
+	d.properties = properties
 	return d
 }
 
 func (d *data) SetValues(events map[string]interface{}) *data {
-	d.Values = events
+	d.values = events
 	return d
 }
 

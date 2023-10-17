@@ -18,9 +18,10 @@ type params struct {
 }
 
 type data struct {
-	Identity   Identity
-	Properties map[string]interface{}
-	Values     map[string]interface{}
+	identity   Identity
+	properties map[string]interface{}
+	values     map[string]interface{}
+	method     string
 	productKey string
 	deviceName string
 	msgId      string

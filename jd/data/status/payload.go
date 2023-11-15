@@ -15,19 +15,26 @@ func NewData() *data {
 	}
 }
 
-func (d *data) Pack() *jd.HttpRequest3 {
-	return &jd.HttpRequest3{
+func (d *data) Pack() *jd.HttpRequest {
+	var method string
+	if d.status == 1 {
+		method = "login"
+	} else if d.status == 2 {
+		method = "logout"
+	}
+	return &jd.HttpRequest{
 		MsgId:   d.msgId,
 		Version: jd.Version,
-		Method:  "ns.batch",
-		Params: []interface{}{
-			map[string]interface{}{
-				"name":      d.deviceName,
-				"timestamp": d.timestamp,
-				"state":     d.status,
-			},
+		Method:  method,
+		Params: map[string]interface{}{
+			"clientId": d.clientId,
 		},
 	}
+}
+
+func (d *data) SetClientId(clientId string) *data {
+	d.clientId = clientId
+	return d
 }
 
 func (d *data) SetStatus(status int64) *data {

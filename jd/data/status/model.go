@@ -6,4 +6,5 @@ type data struct {
 	status     int64
 	msgId      string
 	timestamp  int64
+	clientId   string
 }

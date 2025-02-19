@@ -34,6 +34,10 @@ func (t *Topic) GetInfoTopic() string {
 	return fmt.Sprintf("iot/%s/%s/sys/info/rpt", t.productKey, t.deviceName)
 }
 
+func (t *Topic) GetConfigTopic() string {
+	return fmt.Sprintf("iot/%s/%s/thing/config/post", t.productKey, t.deviceName)
+}
+
 func (t *Topic) GetSystemTopic() string {
 	return fmt.Sprintf("iot/%s/%s/sys/cmd/invoke_reply", t.productKey, t.deviceName)
 }

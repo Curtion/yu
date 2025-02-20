@@ -1,8 +1,8 @@
 package latestData
 
 type Propertie struct {
-	Value string `json:"value"`
-	Time  int64  `json:"time"`
+	Value interface{} `json:"value"`
+	Time  int64       `json:"time"`
 }
 
 type Event struct {

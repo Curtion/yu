@@ -20,6 +20,8 @@ type params struct {
 type Propertie struct {
 	Identifier string `json:"identifier"`
 	Value      any    `json:"value"`
+	Res        string `json:"res"` //0或1, 1表示成功
+	Msg        string `json:"msg"`
 }
 
 type SubDevice struct {

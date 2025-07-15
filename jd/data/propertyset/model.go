@@ -19,7 +19,7 @@ type params struct {
 
 type Propertie struct {
 	Identifier string `json:"identifier"`
-	Value      string `json:"value"`
+	Value      any    `json:"value"`
 }
 
 type SubDevice struct {

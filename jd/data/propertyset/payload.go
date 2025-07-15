@@ -66,5 +66,5 @@ func (d *data) SetMessage(message string) *data {
 
 func (d *data) GetTopic() string {
 	topic := jd.NewTopic(d.productKey, d.deviceName)
-	return topic.GetServiceTopic()
+	return topic.GetPropertySetTopic()
 }

@@ -32,7 +32,6 @@ type SubDevice struct {
 type data struct {
 	properties []Propertie
 	subDevices []SubDevice
-	method     string
 	productKey string
 	deviceName string
 	msgId      string

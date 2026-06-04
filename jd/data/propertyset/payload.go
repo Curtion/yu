@@ -12,10 +12,11 @@ func NewData() *data {
 	}
 }
 
-func (d *data) Pack() *jd.HttpRequest3 {
-	return &jd.HttpRequest3{
+func (d *data) Pack() *jd.HttpRequest2 {
+	return &jd.HttpRequest2{
 		MsgId:   d.msgId,
 		Version: jd.Version,
+		Method:  "property.set_reply",
 		Code:    d.code,
 		Data: map[string]interface{}{
 			"properties": d.properties,
@@ -23,11 +24,6 @@ func (d *data) Pack() *jd.HttpRequest3 {
 		},
 		Message: d.message,
 	}
-}
-
-func (d *data) SetMethod(method string) *data {
-	d.method = method
-	return d
 }
 
 func (d *data) SetProperties(properties []Propertie) *data {

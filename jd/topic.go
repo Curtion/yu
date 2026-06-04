@@ -70,6 +70,8 @@ func (t *Topic) GetSubTopics(devices []string) []string {
 	for _, device := range devices {
 		topics = append(topics, fmt.Sprintf("iot/%s/%s/thing/event/property/pack/post_reply", t.productKey, device))
 		topics = append(topics, fmt.Sprintf("iot/%s/%s/thing/event/property/history/post_reply", t.productKey, device))
+		topics = append(topics, fmt.Sprintf("iot/%s/%s/thing/property/set", t.productKey, device))
+		topics = append(topics, fmt.Sprintf("iot/%s/%s/thing/property/get", t.productKey, device))
 		topics = append(topics, fmt.Sprintf("iot/%s/%s/thing/service/invoke", t.productKey, device))
 		topics = append(topics, fmt.Sprintf("iot/%s/%s/sys/cmd/invoke", t.productKey, device))
 		topics = append(topics, fmt.Sprintf("iot/%s/%s/thing/transport/down", t.productKey, device))

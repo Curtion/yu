@@ -32,14 +32,13 @@ type SubDeviceRes struct {
 }
 
 type Properties struct {
-	Value string `json:"value"`
-	Time  int64  `json:"time"`
+	Value interface{} `json:"value"`
+	Time  int64       `json:"time"`
 }
 
 type data struct {
 	properties map[string]Properties
 	subDevices []SubDeviceRes
-	method     string
 	productKey string
 	deviceName string
 	msgId      string

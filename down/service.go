@@ -1,6 +1,5 @@
 package down
 
-// ServiceRequest 解析云端下发的服务调用请求。
 type ServiceRequest struct {
 	MsgId   string        `json:"msgId"`
 	Version string        `json:"version"`
@@ -8,8 +7,7 @@ type ServiceRequest struct {
 	Params  ServiceParams `json:"params"`
 }
 
-// ServiceParams 是服务调用请求的参数。
-// 注意 JSON 键为 "value"（沿用线上协议）。
+// ServiceParams 的 JSON 键为 "value"（沿用线上协议），非 "values"，勿"修正"。
 type ServiceParams struct {
 	Values map[string]any `json:"value"`
 }

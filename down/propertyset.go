@@ -20,8 +20,7 @@ type SetProperty struct {
 	Value      any    `json:"value"`
 }
 
-// SetResult 是属性设置回复中单个属性的结果。
-// 字段与 SetProperty 不同：用 Res/Msg 表达执行结果，故独立定义。
+// SetResult 用 Res/Msg 表达执行结果，字段与 SetProperty 不同，故独立定义。
 type SetResult struct {
 	Identifier string `json:"identifier"`
 	Res        string `json:"res"` // "1" 成功，"0" 失败

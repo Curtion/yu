@@ -1,9 +1,8 @@
 package yu
 
-// Version 是协议信封的版本字段，由库统一填充。
+// Version 固定为 "1.0.0"，对应线上 payload 约定；与协议文档版本号 V1.3.7 无关，勿按文档"修正"。
 const Version = "1.0.0"
 
-// Request 是请求型报文（设备上报或云端下发）：method + params。
 type Request struct {
 	MsgId   string         `json:"msgId"`
 	Version string         `json:"version"`
@@ -11,7 +10,6 @@ type Request struct {
 	Params  map[string]any `json:"params"`
 }
 
-// Response 是响应型报文（对上报或下发的回复）：code + data + message。
 type Response struct {
 	MsgId   string         `json:"msgId"`
 	Version string         `json:"version"`

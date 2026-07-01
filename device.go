@@ -10,8 +10,8 @@ import (
 	"github.com/Curtion/yu/up"
 )
 
-// Device 绑定 productKey、deviceName 与 Sender，提供上行/回复的一行式方法。
-// 所有方法内部完成 marshal→Publish，消灭业务侧重复的 SetProductKey 与四步曲。
+// Device 绑定三元组与 Sender；所有方法内部完成 marshal→Publish,
+// 避免业务侧重复拼 topic、填 method 与四步上报样板。
 type Device struct {
 	topic  Topic
 	sender Sender
@@ -42,10 +42,8 @@ func newResponse(msgId, method string, data map[string]any) Response {
 	}
 }
 
-// ---- 上行（设备主动发起）----
-//
-// 所有上行方法返回 (msgId, err)：msgId 由库自动生成，供业务做日志/关联；
-// err 在 marshal 或 Publish 失败时直接返回，库不日志、不 panic、不重试。
+// 上行方法返回 (msgId, err)：msgId 由库自动生成，供业务做日志/关联；
+// marshal 或 Publish 失败时直接返回 err，库不日志、不 panic、不重试。
 
 // Report 上报属性（params=properties，topic=event/property/pack/post）。
 func (d *Device) Report(ctx context.Context, props map[string]up.Property) (string, error) {
@@ -62,7 +60,7 @@ func (d *Device) Report(ctx context.Context, props map[string]up.Property) (stri
 	return msgId, d.sender.Publish(ctx, d.topic.packPostTopic(), payload)
 }
 
-// ReportEvent 上报单个事件，按 name 作为 events map 的键（同一 topic/method）。
+// ReportEvent 上报单个事件，name 作为 events map 的键。
 func (d *Device) ReportEvent(ctx context.Context, name string, ev up.Event) (string, error) {
 	msgId := newMsgId()
 	payload, err := json.Marshal(Request{
@@ -143,9 +141,7 @@ func (d *Device) ReportConfig(ctx context.Context, version string, config map[st
 	return msgId, d.sender.Publish(ctx, d.topic.configPostTopic(), payload)
 }
 
-// ---- 下行回复（云端发起、设备回复）----
-//
-// 回复方法的 msgId 来自对应请求，由业务传入；返回值为 marshal/Publish 的错误。
+// 回复方法的 msgId 来自对应请求（由业务传入）；返回 marshal/Publish 的错误。
 
 // ReplySet 回复属性设置（topic=property/set_reply，method=property.set_reply）。
 func (d *Device) ReplySet(ctx context.Context, msgId string, results []down.SetResult) error {
@@ -156,8 +152,7 @@ func (d *Device) ReplySet(ctx context.Context, msgId string, results []down.SetR
 	return d.sender.Publish(ctx, d.topic.propertySetReplyTopic(), payload)
 }
 
-// ReplyGet 回复属性查询（topic=property/get_reply，method=property.get_reply）。
-// values 复用 up.Property（{value, time}）。
+// ReplyGet 复用 up.Property（{value, time}）作为查询结果。
 func (d *Device) ReplyGet(ctx context.Context, msgId string, values map[string]up.Property) error {
 	payload, err := json.Marshal(newResponse(msgId, "property.get_reply", map[string]any{"properties": values}))
 	if err != nil {
@@ -166,8 +161,7 @@ func (d *Device) ReplyGet(ctx context.Context, msgId string, values map[string]u
 	return d.sender.Publish(ctx, d.topic.propertyGetReplyTopic(), payload)
 }
 
-// ReplyService 回复服务下发（topic=service/invoke_reply）。
-// method 由业务从 ServiceRequest.Method 回传，库不缓存。
+// ReplyService 的 method 由业务从 ServiceRequest.Method 回传，库不缓存。
 func (d *Device) ReplyService(ctx context.Context, msgId, method string, result map[string]any) error {
 	payload, err := json.Marshal(newResponse(msgId, method, result))
 	if err != nil {
@@ -176,8 +170,7 @@ func (d *Device) ReplyService(ctx context.Context, msgId, method string, result 
 	return d.sender.Publish(ctx, d.topic.serviceReplyTopic(), payload)
 }
 
-// ReplySystem 回复系统指令（topic=sys/cmd/invoke_reply）。
-// method 由业务从 SystemRequest.Method 回传，库不缓存。
+// ReplySystem 的 method 由业务从 SystemRequest.Method 回传，库不缓存。
 func (d *Device) ReplySystem(ctx context.Context, msgId, method string, result map[string]any) error {
 	payload, err := json.Marshal(newResponse(msgId, method, result))
 	if err != nil {

@@ -16,11 +16,12 @@ type Topic struct {
 type Kind int
 
 const (
-	KindPropertySet   Kind = iota // /thing/property/set
-	KindPropertyGet               // /thing/property/get
-	KindServiceInvoke             // /thing/service/invoke
-	KindSystemInvoke              // /sys/cmd/invoke
-	KindConfigSet                 // /thing/config/set
+	KindPropertySet           Kind = iota // /thing/property/set
+	KindPropertyGet                       // /thing/property/get
+	KindServiceInvoke                     // /thing/service/invoke
+	KindSystemInvoke                      // /sys/cmd/invoke
+	KindConfigSet                         // /thing/config/set
+	KindPropertyPackPostReply             // /thing/event/property/pack/post_reply
 )
 
 type Incoming struct {
@@ -48,6 +49,8 @@ func ParseTopic(productKey, topic string) (Incoming, bool) {
 		inc.Kind = KindSystemInvoke
 	case "thing/config/set":
 		inc.Kind = KindConfigSet
+	case "thing/event/property/pack/post_reply":
+		inc.Kind = KindPropertyPackPostReply
 	default:
 		return Incoming{}, false
 	}

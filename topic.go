@@ -70,20 +70,17 @@ var subSuffixes = []string{
 	"thing/config/set",                        // 下发配置
 }
 
-// GetSubTopics 在 devices 为空时返回通配订阅（iot/{pk}/+/{suffix}，一次覆盖本产品全部设备）；
-// 非空时按给定设备名展开为精确 topic（iot/{pk}/{device}/{suffix}）。
-func (t Topic) GetSubTopics(devices []string) []string {
-	if len(devices) == 0 {
-		topics := make([]string, len(subSuffixes))
+// GetSubTopics 在 t.DeviceName 为空时返回通配订阅（iot/{pk}/+/{suffix}，一次覆盖本产品全部设备）；
+// 非空时按 t.DeviceName 展开为精确 topic（iot/{pk}/{device}/{suffix}）。
+func (t Topic) GetSubTopics() []string {
+	topics := make([]string, len(subSuffixes))
+	if t.DeviceName == "" {
 		for i, s := range subSuffixes {
 			topics[i] = fmt.Sprintf("iot/%s/+/%s", t.ProductKey, s)
 		}
-		return topics
-	}
-	topics := make([]string, 0, len(devices)*len(subSuffixes))
-	for _, device := range devices {
-		for _, s := range subSuffixes {
-			topics = append(topics, fmt.Sprintf("iot/%s/%s/%s", t.ProductKey, device, s))
+	} else {
+		for i, s := range subSuffixes {
+			topics[i] = fmt.Sprintf("iot/%s/%s/%s", t.ProductKey, t.DeviceName, s)
 		}
 	}
 	return topics
